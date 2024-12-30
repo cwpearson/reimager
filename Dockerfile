@@ -11,6 +11,8 @@ RUN cd /src && go build -ldflags "-X ytdlp-site/config.gitSHA=${GIT_SHA} -X ytdl
 
 FROM debian:bookworm-slim
 
+LABEL org.opencontainers.image.source = "https://github.com/cwpearson/reimager"
+
 RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
    ca-certificates \
