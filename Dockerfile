@@ -13,10 +13,9 @@ FROM debian:bookworm-slim
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends --no-install-suggests \
-   ca-certificates
+   ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=0 /usr/local/bin/yt-dlp /usr/local/bin/yt-dlp 
 COPY --from=0 /src/server /opt/reimager
 
 WORKDIR /opt
