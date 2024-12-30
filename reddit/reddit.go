@@ -117,11 +117,11 @@ func getImage(rl *rate_limit.RateLimit, url, outDir, stem string) error {
 	return os.WriteFile(outPath, contents, 0644)
 }
 
-func (r *Reddit) Get() {
+func (r *Reddit) Get(outDir string) {
 	var children []ChildData
 	var err error
 
-	outDir := filepath.Join("subreddits", r.subreddit)
+	outDir = filepath.Join(outDir, r.subreddit)
 	err = os.MkdirAll(outDir, 0755)
 	if err != nil && !os.IsExist(err) {
 		log.Println("ERROR: couldn't create out directory", outDir)
@@ -173,7 +173,7 @@ func (r *Reddit) Get() {
 				if len(parts) == 2 {
 					imgUrl := fmt.Sprintf("https://i.redd.it/%s.%s", meta.Id, parts[1])
 
-					stem := fmt.Sprintf("%d_%s_%d_%s", int64(child.Created), shortTitle, mi, meta.Id)
+					stem := fmt.Sprintf("%d_%s_%s", int64(child.Created), shortTitle, meta.Id)
 
 					if _, ok := existing[stem]; ok {
 						log.Println(stem, "already downloaded")
