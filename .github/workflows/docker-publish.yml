@@ -1,0 +1,33 @@
+name: Docker Publish
+
+on:
+  push:
+    branches: [ "master" ]
+    paths-ignore:
+      - 'README.md'
+  # pull_request:
+  #   branches: [ "master" ]
+  #   paths-ignore:
+  #     - 'README.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set Environment
+      run: |
+        echo "SLUG=ghcr.io/cwpearson/reimager" >> $GITHUB_ENV
+        echo "DATE=$(date +"%Y%m%d_%H%M")" >> $GITHUB_ENV
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --build-arg GIT_SHA=$(git rev-parse HEAD) --tag "$SLUG:$DATE" --tag "$SLUG:latest"
+    - name: Publish to GHCR
+      run: |
+        echo '${{secrets.GHCR_TOKEN}}' | docker login ghcr.io -u cwpearson --password-stdin
+        docker push "$SLUG:latest"
+        docker push "$SLUG:$DATE"
