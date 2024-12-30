@@ -17,3 +17,6 @@ docker run --restart unless-stopped \
     oldschoolcool \
     thewaywewere
 ```
+
+1. Register for API access
+2. Register an application: https://ssl.reddit.com/prefs/apps
