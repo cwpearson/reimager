@@ -16,7 +16,7 @@ RUN apt-get update \
    ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
-COPY --from=0 /src/server /opt/reimager
+COPY --from=0 /src/reimager /opt/reimager
 
 WORKDIR /opt
 CMD ["/opt/reimager"]
