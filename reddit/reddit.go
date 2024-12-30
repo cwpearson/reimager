@@ -168,7 +168,7 @@ func (r *Reddit) Get(outDir string) {
 
 			log.Println("Gallery metas:", metas)
 
-			for mi, meta := range metas {
+			for _, meta := range metas {
 				parts := strings.Split(meta.Mimetype, "/")
 				if len(parts) == 2 {
 					imgUrl := fmt.Sprintf("https://i.redd.it/%s.%s", meta.Id, parts[1])
